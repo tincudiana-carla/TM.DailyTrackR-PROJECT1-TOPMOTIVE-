@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="TM Daily TrackR" Height="450" Width="800"
+        Title="Cea mai tare aplicatie!" Height="450" Width="800"
         ResizeMode="NoResize"
         SizeToContent ="WidthandHeight"
         Background="LightBlue"

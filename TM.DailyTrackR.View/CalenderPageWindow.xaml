@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
         mc:Ignorable="d"
-        Title="CalenderPage" Height="450" Width="800">
+        Title="Cea mai tare aplicatie!" Height="450" Width="800"
+        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Calendar Grid.Column="0" Margin="10"/>
+
+        <Grid Grid.Column="1">
+  
+        </Grid>
     </Grid>
 </Window>

@@ -12,6 +12,7 @@
         private string username;
         private string password;
 
+
         public DelegateCommand LoginCommand { get; }
 
         public string Username
@@ -43,6 +44,7 @@
         {
             MessageBox.Show($"Logged in as: {Username}");
             ViewService.Instance.ShowWindow(new CalendarPageViewModel());
+            Application.Current.MainWindow.Close();
         }
     }
 }
