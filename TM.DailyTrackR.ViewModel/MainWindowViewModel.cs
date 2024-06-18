@@ -42,7 +42,7 @@
 
         private void OnLoginExecute()
         {
-            MessageBox.Show($"Logged in as: {Username}");
+            MessageBox.Show($"Logged in as:{Username}");
             ViewService.Instance.ShowWindow(new CalendarPageViewModel());
             Application.Current.MainWindow.Close();
         }
