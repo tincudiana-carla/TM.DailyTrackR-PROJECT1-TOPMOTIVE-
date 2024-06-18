@@ -11,9 +11,8 @@
         SizeToContent ="WidthandHeight"
         Background="LightBlue"
         Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png">
-        
+
     <Window.Resources>
-        <!-- Define a style for the Button -->
         <Style x:Key="StyledButton" TargetType="Button">
             <Setter Property="Background" Value="DodgerBlue"/>
             <Setter Property="Foreground" Value="White"/>
