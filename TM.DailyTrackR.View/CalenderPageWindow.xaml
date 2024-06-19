@@ -35,35 +35,56 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Calendar Grid.Column="0" Margin="10"/>
+        <Calendar Grid.Column="0" Margin="10" SelectedDate="{Binding SelectedDate, Mode=TwoWay}"/>
 
-        <Grid Grid.Column="1" Background="LightBlue" Margin="10">
- 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-                <TextBlock Text="Activities Date: " VerticalAlignment="Center"/>
-                <Button Content="Inserare" Style="{StaticResource StyledButton}"  Width="80" Margin="375,0,0,0"/>
-            </StackPanel>
+        <TabControl Grid.Column="1" Margin="10">
+            <TabItem Header="DailyWork">
+                <Grid Background="LightBlue">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
+                        <Button Content="Inserare" Style="{StaticResource StyledButton}" Width="80" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding ActivitiesDateText}" VerticalAlignment="Center" Margin="0"/>
+                    </StackPanel>
 
-           
-            <DataGrid AutoGenerateColumns="False" 
-                      CanUserAddRows="True"
-                      ItemsSource="{Binding TODO}" Margin="10,40,10,70">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="No." Binding="{Binding No}" MinWidth="50" />
-                    <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectType}" MinWidth="100" />
-                    <DataGridTextColumn Header="Task Type" Binding="{Binding TaskType}" MinWidth="100" />
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" MinWidth="200" />
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+                    <DataGrid AutoGenerateColumns="False" 
+                              CanUserAddRows="True"
+                              ItemsSource="{Binding TODO}" Margin="10,40,10,70">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="No." Binding="{Binding No}" MinWidth="50" />
+                            <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectType}" MinWidth="100" />
+                            <DataGridTextColumn Header="Task Type" Binding="{Binding TaskType}" MinWidth="100" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" MinWidth="200" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Overview">
+                <Grid Background="LightBlue">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
+                        <TextBlock Text="{Binding ActivitiesDateText}" VerticalAlignment="Center" Margin="0"/>
+                    </StackPanel>
+                    <DataGrid AutoGenerateColumns="False" 
+                              CanUserAddRows="True"
+                              ItemsSource="{Binding OverviewData}" Margin="10,40,10,70">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="No." Binding="{Binding No}" MinWidth="50" />
+                            <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectType}" MinWidth="100" />
+                            <DataGridTextColumn Header="Task Type" Binding="{Binding TaskType}" MinWidth="100" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" MinWidth="200" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 
 </Window>
