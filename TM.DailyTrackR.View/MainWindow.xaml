@@ -53,26 +53,30 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
             Username:
         </TextBlock>
-        
-        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Name="UsernameTextBox" TextChanged="UsernameTextBox_TextChanged"/>
-
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200"
+         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
             Password:
         </TextBlock>
-     
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Name="PasswordBox"/>
 
-        
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200"
+         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+
+
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Content="LOGIN"
                 Style="{StaticResource StyledButton}"
-                Command="{Binding LoginCommand}" Click="Button_Click">
+                Command="{Binding LoginCommand}">
             </Button>
         </Grid>
-        
+
+
     </Grid>
 </Window>

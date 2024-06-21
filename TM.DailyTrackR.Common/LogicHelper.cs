@@ -8,10 +8,15 @@
     public LogicHelper()
     {
       ExampleController = new ExampleController();
+      CalendarController = new CalendarController();
+      LoginController = new LoginController();
+
     }
 
     public static LogicHelper Instance { get { return Lazy.Value; } }
 
     public ExampleController ExampleController { get; }
+    public CalendarController CalendarController { get; }
+    public LoginController LoginController { get; }
   }
 }

@@ -170,7 +170,7 @@
 
         public List<ActivityCalendar> GetCalendarActivity()
         {
-            string procedureName = "TM.GetCalendarActivity1";
+            string procedureName = "TM.GetCalendarActivity";
             List<ActivityCalendar> dataList = new List<ActivityCalendar>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -191,11 +191,12 @@
                                 Id = reader.GetInt32(reader.GetOrdinal("id")),
                                 ProjectTypeDescription = reader.GetString(reader.GetOrdinal("ProjectTypeDescription")),
                                 ActivityDescription = reader.GetString(reader.GetOrdinal("ActivityDescription")),
-                                TaskType = reader.GetInt32(reader.GetOrdinal("TaskType"))
 
                             };
                             int statusValue = reader.GetInt32(reader.GetOrdinal("Status"));
+                            int taskType = reader.GetInt32(reader.GetOrdinal("TaskType"));
                             data.Status = (Status)statusValue;
+                            data.TaskType = (TaskType)taskType;
                             
                             dataList.Add(data);
                         }

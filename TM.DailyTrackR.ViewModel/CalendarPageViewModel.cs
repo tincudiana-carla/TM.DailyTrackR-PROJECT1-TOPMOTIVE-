@@ -13,17 +13,19 @@ namespace TM.DailyTrackR.ViewModel
 {
     public class CalendarPageViewModel : BindableBase
     {
-
         private DateTime selectedDate;
         LogicHelper helper;
         List<ActivityCalendar> dataTable;
+
         public DateTime SelectedDate
         {
             get => selectedDate;
             set
             {
-                SetProperty(ref selectedDate, value);
-                UpdateActivitiesDate(value); 
+                if (SetProperty(ref selectedDate, value))
+                {
+                    UpdateActivitiesDate(value);
+                }
             }
         }
 
@@ -44,15 +46,16 @@ namespace TM.DailyTrackR.ViewModel
         {
             ActivitiesDateText = "Activities Date: ";
             helper = new LogicHelper();
-            dataTable = helper.ExampleController.GetCalendarActivity();
-            RaisePropertyChanged(nameof(DataTable));
+            SelectedDate = DateTime.Now;
+            UpdateActivitiesDate(SelectedDate);
         }
-
 
         private void UpdateActivitiesDate(DateTime selectedDate)
         {
-            ActivitiesDateText = $"Activities Date: {selectedDate.ToString("dd/MM/yyyy")}";
+            ActivitiesDateText = $"Activities Date: {selectedDate:dd/MM/yyyy}";
+            DataTable = helper.CalendarController.GetCalendarActivityByCurrentDate(selectedDate);
         }
+    
 
     }
 }

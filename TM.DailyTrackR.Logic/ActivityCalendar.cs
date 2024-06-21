@@ -14,6 +14,8 @@ namespace TM.DailyTrackR.Logic
         public string ActivityDescription { get; set; }
         public Status Status { get; set; }
         public string Username { get; set; }
-        public int TaskType { get; set; }
+        public TaskType TaskType { get; set; }
+        public DateTime DateTime { get; set; }
+        public int UserID { get; set; }
     }
 }

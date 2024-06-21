@@ -9,10 +9,10 @@
 
     public class MainWindowViewModel : BindableBase
     {
-        private UserAccount userAccount;
         private string username;
-        private string password;
+
         private LogicHelper helper;
+        private UserAccount userAccount;
 
         public DelegateCommand LoginCommand { get; }
 
@@ -22,6 +22,7 @@
             set => SetProperty(ref username, value);
         }
 
+        private string password;
         public string Password
         {
             get => password;
@@ -30,23 +31,37 @@
 
         public MainWindowViewModel()
         {
-            userAccount = new UserAccount { Username = "Marcel", Password = "pita" };
-            Username = userAccount.Username;
-            Password = userAccount.Password;
+            this.userAccount = new UserAccount { Username = " ", Password = " " };
+            this.username = this.userAccount.Username;
+            this.password = this.userAccount.Password;
+            helper = new LogicHelper();
             LoginCommand = new DelegateCommand(OnLoginExecute, OnLoginCanExecute);
         }
 
         private bool OnLoginCanExecute()
         {
-            return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
+            return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password) ;
         }
 
         private void OnLoginExecute()
         {
-            MessageBox.Show($"Logged in as:{Username}");
-            ViewService.Instance.ShowWindow(new CalendarPageViewModel());
-            Application.Current.MainWindow.Close();
+            bool isValidUser = helper.LoginController.ValidateUser(Username, Password);
+            if(this.Password == " " && this.Username == " ")
+            {
+                MessageBox.Show("Empty username or empty password!");
+            }
 
+            else if (isValidUser)
+            {
+                MessageBox.Show($"Logged in as: {Username}");
+                ViewService.Instance.ShowWindow(new CalendarPageViewModel());
+                Application.Current.MainWindow.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password.");
+            }
         }
     }
 }
+
