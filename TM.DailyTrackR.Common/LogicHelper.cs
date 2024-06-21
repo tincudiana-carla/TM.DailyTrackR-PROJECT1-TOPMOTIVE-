@@ -5,7 +5,7 @@
   public sealed class LogicHelper
   {
     private static readonly Lazy<LogicHelper> Lazy = new Lazy<LogicHelper>(() => new LogicHelper(), isThreadSafe: true);
-    private LogicHelper()
+    public LogicHelper()
     {
       ExampleController = new ExampleController();
     }

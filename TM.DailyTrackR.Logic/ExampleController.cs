@@ -1,10 +1,12 @@
 ﻿namespace TM.DailyTrackR.Logic
 {
-  using System.Data.SqlClient;
+    using System.Data.SqlClient;
+    using System.Reflection.PortableExecutable;
+    using TM.DailyTrackR.DataType.Enums;
 
     public sealed class ExampleController
     {
-        string connectionString = @"Server=.\TM_DAILY_TRACKR;Database=TRACKR_DATA;Integrated Security=true;";
+        public string connectionString = @"Server=.\TM_DAILY_TRACKR;Database=TRACKR_DATA;Integrated Security=true;";
 
         public int GetDataExample()
         {
@@ -123,5 +125,90 @@
 
             return 0;
         }
+
+
+
+        public int GetUserAccountByUsername(string username)
+        {
+            string procedureName = "GetUserAccountByUsername";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Username", username);
+
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            int userId = reader.GetInt32(reader.GetOrdinal("ID"));
+                            string fetchedUsername = reader.GetString(reader.GetOrdinal("Username")); 
+                            string password = reader.GetString(reader.GetOrdinal("Password")); 
+                            string role = reader.GetString(reader.GetOrdinal("Role")); 
+
+                            Console.WriteLine($"User found - ID: {userId}, Username: {fetchedUsername}, Role: {role}");
+                            return userId;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"User with username '{username}' not found.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+            }
+            return 0;
+        }
+
+        public List<ActivityCalendar> GetCalendarActivity()
+        {
+            string procedureName = "TM.GetCalendarActivity1";
+            List<ActivityCalendar> dataList = new List<ActivityCalendar>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            ActivityCalendar data = new ActivityCalendar
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("id")),
+                                ProjectTypeDescription = reader.GetString(reader.GetOrdinal("ProjectTypeDescription")),
+                                ActivityDescription = reader.GetString(reader.GetOrdinal("ActivityDescription")),
+                                TaskType = reader.GetInt32(reader.GetOrdinal("TaskType"))
+
+                            };
+                            int statusValue = reader.GetInt32(reader.GetOrdinal("Status"));
+                            data.Status = (Status)statusValue;
+                            
+                            dataList.Add(data);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+            }
+
+            return dataList;
+        }
+
     }
 }
