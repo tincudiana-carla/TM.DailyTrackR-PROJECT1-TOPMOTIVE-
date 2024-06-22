@@ -80,7 +80,7 @@
                             <DataGridTextColumn Header="Task Type" Binding="{Binding TaskType}" MinWidth="100" />
                             <DataGridTextColumn Header="Description" Binding="{Binding ActivityDescription}" MinWidth="200" />
                             <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100" />
-                            <DataGridTextColumn Header="UserID" Binding="{Binding UserId}" MinWidth="100" />
+                            <DataGridTextColumn Header="Username" Binding="{Binding Username}" MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

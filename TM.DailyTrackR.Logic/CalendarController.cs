@@ -58,7 +58,7 @@ namespace TM.DailyTrackR.Logic
 
         public List<ActivityCalendar> GetCalendarActivityByCurrentDate(DateTime selectedDate)
         {
-            string procedureName = "TM.GetCalendarActivityByCurrentDate";
+            string procedureName = "TM.GetCalendarActivityByCurrentDate1";
             List<ActivityCalendar> dataList = new List<ActivityCalendar>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -80,6 +80,7 @@ namespace TM.DailyTrackR.Logic
                                 Id = reader.GetInt32(reader.GetOrdinal("id")),
                                 ActivityDescription = reader.GetString(reader.GetOrdinal("ActivityDescription")),
                                 UserID = reader.GetInt32(reader.GetOrdinal("UserID")),
+                                Username = reader.GetString(reader.GetOrdinal("Username")),
                                 DateTime = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
                                 ProjectTypeDescription = reader.GetString(reader.GetOrdinal("ProjectTypeDescription")),
                             };
