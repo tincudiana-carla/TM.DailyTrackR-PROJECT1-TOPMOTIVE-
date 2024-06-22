@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TM.DailyTrackR.DataType.Enums;
 
 namespace TM.DailyTrackR.Logic
 {
@@ -39,10 +42,10 @@ namespace TM.DailyTrackR.Logic
             return isValid;
         }
 
-        public List<UserAccount> GetAllUserAccounts()
+        public UserAccount GetUserAccount(string username)
         {
-            string procedureName = "TM.GetAllUserAccounts";
-            List<UserAccount> userList = new List<UserAccount>();
+            string procedureName = "TM.GetUserAccountByUsername";
+            UserAccount userAccount = null;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -51,19 +54,20 @@ namespace TM.DailyTrackR.Logic
                     using (SqlCommand command = new SqlCommand(procedureName, connection))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@Username", username));
+
                         connection.Open();
                         SqlDataReader reader = command.ExecuteReader();
 
-                        while (reader.Read())
+                        if (reader.Read())
                         {
-                            UserAccount user = new UserAccount
+                            userAccount = new UserAccount
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("ID")),
                                 Username = reader.GetString(reader.GetOrdinal("username")),
                                 Password = reader.GetString(reader.GetOrdinal("password")),
                                 Role = reader.GetString(reader.GetOrdinal("role"))
                             };
-                            userList.Add(user);
                         }
                     }
                 }
@@ -73,8 +77,7 @@ namespace TM.DailyTrackR.Logic
                 }
             }
 
-            return userList;
-        }
-
+            return userAccount;
+        }    
     }
 }

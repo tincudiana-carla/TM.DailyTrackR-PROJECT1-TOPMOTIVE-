@@ -31,31 +31,50 @@
 
         public MainWindowViewModel()
         {
-            this.userAccount = new UserAccount { Username = " ", Password = " " };
+            this.userAccount = new UserAccount { Username = "", Password = "" };
             this.username = this.userAccount.Username;
             this.password = this.userAccount.Password;
             helper = new LogicHelper();
-            LoginCommand = new DelegateCommand(OnLoginExecute, OnLoginCanExecute);
+            LoginCommand = new DelegateCommand(OnLoginExecute);
         }
 
-        private bool OnLoginCanExecute()
-        {
-            return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password) ;
-        }
+
 
         private void OnLoginExecute()
         {
             bool isValidUser = helper.LoginController.ValidateUser(Username, Password);
-            if(this.Password == " " && this.Username == " ")
+            if (string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(Password))
             {
                 MessageBox.Show("Empty username or empty password!");
             }
 
             else if (isValidUser)
             {
-                MessageBox.Show($"Logged in as: {Username}");
-                ViewService.Instance.ShowWindow(new CalendarPageViewModel());
-                Application.Current.MainWindow.Close();
+                userAccount = helper.LoginController.GetUserAccount(Username);
+
+                if (userAccount.Role == "user")
+                {
+                    MessageBox.Show($"Logged in as: {Username} (User)");
+                    var calendarPageViewModel = new CalendarPageViewModel(userAccount);
+                    ViewService.Instance.ShowWindow(calendarPageViewModel);
+                    Application.Current.MainWindow.Close();
+                }
+                else if (userAccount.Role == "admin")
+                {
+                    
+                    MessageBox.Show($"Logged in as: {Username} (Admin)");
+                    var selectedDate = DateTime.Now;
+                    //TODO:AdminRole by seeing all user's activities//TODO:AdminRole by seeing all user's activities
+                    //var activities = helper.CalendarController.GetCalendarActivityByCurrentDate(selectedDate);
+                    var calendarPageViewModel = new CalendarPageViewModel(userAccount);
+                    ViewService.Instance.ShowWindow(calendarPageViewModel);
+                    Application.Current.MainWindow.Close();
+
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password.");
+                }
             }
             else
             {

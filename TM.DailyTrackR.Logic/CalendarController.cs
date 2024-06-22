@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -84,6 +85,54 @@ namespace TM.DailyTrackR.Logic
                             };
                             int statusValue = reader.GetInt32(reader.GetOrdinal("Status"));
                             int taskType = reader.GetInt32(reader.GetOrdinal("TaskType"));
+                            data.Status = (Status)statusValue;
+                            data.TaskType = (TaskType)taskType;
+                            dataList.Add(data);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+            }
+
+            return dataList;
+        }
+
+        public List<ActivityCalendar> GetUserActivitiesByDate(int userId, DateTime selectedDate)
+        {
+            string procedureName = "TM.GetUserActivitiesByDate1";
+            List<ActivityCalendar> dataList = new List<ActivityCalendar>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@UserID", userId));
+                        command.Parameters.Add(new SqlParameter("@SelectedDate", selectedDate.ToString("yyyy-MM-dd")));
+
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            ActivityCalendar data = new ActivityCalendar
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("id")),
+                                ProjectTypeDescription = reader.GetString(reader.GetOrdinal("ProjectTypeDescription")),
+                                ActivityDescription = reader.GetString(reader.GetOrdinal("ActivityDescription")),
+                                Status = (Status)reader.GetInt32(reader.GetOrdinal("status_id")),
+                                Username = reader.GetString(reader.GetOrdinal("username")),
+                                DateTime = reader.GetDateTime(reader.GetOrdinal("creation_date")),
+                                UserID = reader.GetInt32(reader.GetOrdinal("user_id"))
+                            };
+
+                            int statusValue = reader.GetInt32(reader.GetOrdinal("status_id"));
+                            int taskType = reader.GetInt32(reader.GetOrdinal("task_type"));
                             data.Status = (Status)statusValue;
                             data.TaskType = (TaskType)taskType;
                             dataList.Add(data);

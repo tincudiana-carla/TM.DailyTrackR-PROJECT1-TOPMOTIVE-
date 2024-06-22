@@ -16,6 +16,7 @@ namespace TM.DailyTrackR.ViewModel
         private DateTime selectedDate;
         LogicHelper helper;
         List<ActivityCalendar> dataTable;
+        private UserAccount currentUser;
 
         public DateTime SelectedDate
         {
@@ -42,10 +43,11 @@ namespace TM.DailyTrackR.ViewModel
             set => SetProperty(ref dataTable, value);
         }
 
-        public CalendarPageViewModel()
+        public CalendarPageViewModel(UserAccount user)
         {
             ActivitiesDateText = "Activities Date: ";
             helper = new LogicHelper();
+            currentUser = user; 
             SelectedDate = DateTime.Now;
             UpdateActivitiesDate(SelectedDate);
         }
@@ -53,7 +55,7 @@ namespace TM.DailyTrackR.ViewModel
         private void UpdateActivitiesDate(DateTime selectedDate)
         {
             ActivitiesDateText = $"Activities Date: {selectedDate:dd/MM/yyyy}";
-            DataTable = helper.CalendarController.GetCalendarActivityByCurrentDate(selectedDate);
+            DataTable = helper.CalendarController.GetUserActivitiesByDate(currentUser.Id, selectedDate);
         }
     
 
