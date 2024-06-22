@@ -15,6 +15,7 @@
 
             ViewService.Instance.RegisterView(typeof(MainWindowViewModel), typeof(MainWindow));
             ViewService.Instance.RegisterView(typeof(CalendarPageViewModel), typeof(CalenderPage));
+            ViewService.Instance.RegisterView(typeof(InsertActivityViewModel), typeof(InsertActivityWindow));
             ViewService.Instance.ShowDialog(new MainWindowViewModel());
         }
   }

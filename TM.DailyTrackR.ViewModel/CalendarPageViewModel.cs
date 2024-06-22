@@ -18,6 +18,7 @@ namespace TM.DailyTrackR.ViewModel
         private List<ActivityCalendar> dataTable;
         private List<ActivityCalendar> overviewDataTable;
         private UserAccount currentUser;
+        public DelegateCommand OpenInsertInterfaceCommand { get; }
 
         public DateTime SelectedDate
         {
@@ -59,6 +60,7 @@ namespace TM.DailyTrackR.ViewModel
             SelectedDate = DateTime.Now;
             UpdateActivitiesDate(SelectedDate);
             UpdateOverviewActivitiesDate(SelectedDate,user);
+            OpenInsertInterfaceCommand = new DelegateCommand(OnOpenInsertInterface);
         }
 
         private void UpdateActivitiesDate(DateTime selectedDate)
@@ -79,6 +81,14 @@ namespace TM.DailyTrackR.ViewModel
                 OverviewDataTable = helper.CalendarController.GetUserActivitiesByDate(user.Id, selectedDate);
             }
             
+        }
+
+        private void OnOpenInsertInterface()
+        {
+            DateTime currentDate = SelectedDate; 
+            int userId = currentUser.Id; 
+            var insertViewModel = new InsertActivityViewModel(currentDate, userId); 
+            ViewService.Instance.ShowWindow(insertViewModel);
         }
     }
 }

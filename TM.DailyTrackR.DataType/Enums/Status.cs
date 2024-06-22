@@ -8,7 +8,8 @@ namespace TM.DailyTrackR.DataType.Enums
 {
     public enum Status
     {
-        Waiting = 1,
-        Done = 2
+        InPogress = 1,
+        OnHold = 2,
+        Done = 3
     }
 }

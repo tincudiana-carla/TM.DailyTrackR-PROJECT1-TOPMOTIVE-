@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace TM.DailyTrackR.DataType.Enums
 {
-    public enum TaskType
+    public enum ProjectType
     {
-        New = 1,
-        Fix = 2,
-        Old=3
+        Administrative = 1,
+        Marketing = 2,
+        Meeting=3,
+        Developing = 4,    
+        Testing=5
     }
 }

@@ -48,7 +48,7 @@
             <TabItem Header="DailyWork">
                 <Grid Background="LightBlue">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-                        <Button Content="Inserare" Style="{StaticResource StyledButton}" Width="80" Margin="0,0,10,0"/>
+                        <Button Content="Inserare" Style="{StaticResource StyledButton}" Command="{Binding OpenInsertInterfaceCommand}" Width="80" Margin="0,0,10,0"/>
                         <TextBlock Text="{Binding ActivitiesDateText}" VerticalAlignment="Center" Margin="0"/>
                     </StackPanel>
 
