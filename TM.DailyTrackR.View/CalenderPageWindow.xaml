@@ -73,13 +73,14 @@
                     </StackPanel>
                     <DataGrid AutoGenerateColumns="False" 
                               CanUserAddRows="True"
-                              ItemsSource="{Binding DataTable}" Margin="10,40,10,70">
+                              ItemsSource="{Binding OverviewDataTable}" Margin="10,40,10,70">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="No." Binding="{Binding Id}" MinWidth="50" />
                             <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypeDescription}" MinWidth="100" />
                             <DataGridTextColumn Header="Task Type" Binding="{Binding TaskType}" MinWidth="100" />
                             <DataGridTextColumn Header="Description" Binding="{Binding ActivityDescription}" MinWidth="200" />
                             <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100" />
+                            <DataGridTextColumn Header="UserID" Binding="{Binding UserId}" MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

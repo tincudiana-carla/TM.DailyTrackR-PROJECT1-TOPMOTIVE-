@@ -64,8 +64,6 @@
                     
                     MessageBox.Show($"Logged in as: {Username} (Admin)");
                     var selectedDate = DateTime.Now;
-                    //TODO:AdminRole by seeing all user's activities//TODO:AdminRole by seeing all user's activities
-                    //var activities = helper.CalendarController.GetCalendarActivityByCurrentDate(selectedDate);
                     var calendarPageViewModel = new CalendarPageViewModel(userAccount);
                     ViewService.Instance.ShowWindow(calendarPageViewModel);
                     Application.Current.MainWindow.Close();

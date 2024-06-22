@@ -14,8 +14,9 @@ namespace TM.DailyTrackR.ViewModel
     public class CalendarPageViewModel : BindableBase
     {
         private DateTime selectedDate;
-        LogicHelper helper;
-        List<ActivityCalendar> dataTable;
+        private LogicHelper helper;
+        private List<ActivityCalendar> dataTable;
+        private List<ActivityCalendar> overviewDataTable;
         private UserAccount currentUser;
 
         public DateTime SelectedDate
@@ -26,6 +27,7 @@ namespace TM.DailyTrackR.ViewModel
                 if (SetProperty(ref selectedDate, value))
                 {
                     UpdateActivitiesDate(value);
+                    UpdateOverviewActivitiesDate(value, currentUser);
                 }
             }
         }
@@ -43,13 +45,20 @@ namespace TM.DailyTrackR.ViewModel
             set => SetProperty(ref dataTable, value);
         }
 
+        public List<ActivityCalendar> OverviewDataTable
+        {
+            get => overviewDataTable;
+            set => SetProperty(ref overviewDataTable, value);
+        }
+
         public CalendarPageViewModel(UserAccount user)
         {
             ActivitiesDateText = "Activities Date: ";
             helper = new LogicHelper();
-            currentUser = user; 
+            currentUser = user;
             SelectedDate = DateTime.Now;
             UpdateActivitiesDate(SelectedDate);
+            UpdateOverviewActivitiesDate(SelectedDate,user);
         }
 
         private void UpdateActivitiesDate(DateTime selectedDate)
@@ -57,7 +66,19 @@ namespace TM.DailyTrackR.ViewModel
             ActivitiesDateText = $"Activities Date: {selectedDate:dd/MM/yyyy}";
             DataTable = helper.CalendarController.GetUserActivitiesByDate(currentUser.Id, selectedDate);
         }
-    
 
+        private void UpdateOverviewActivitiesDate(DateTime selectedDate, UserAccount user)
+        {
+            ActivitiesDateText = $"Activities Date: {selectedDate:dd/MM/yyyy}";
+            if (user.Role == "admin")
+            {
+                OverviewDataTable = helper.CalendarController.GetCalendarActivityByCurrentDate(selectedDate);
+            }
+            else if (user.Role == "user")
+            {
+                OverviewDataTable = helper.CalendarController.GetUserActivitiesByDate(user.Id, selectedDate);
+            }
+            
+        }
     }
 }
