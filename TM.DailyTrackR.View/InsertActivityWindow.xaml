@@ -50,19 +50,28 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Project Type" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" ItemsSource="{Binding ProjectTypeOptions}"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" 
+          ItemsSource="{Binding ProjectTypeOptions}"
+          SelectedItem="{Binding SelectedProjectType, Mode=TwoWay}"/>
 
+        <!-- Task Type -->
         <TextBlock Grid.Row="1" Text="Task Type" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" ItemsSource="{Binding TaskTypeOptions}"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" 
+          ItemsSource="{Binding TaskTypeOptions}"
+          SelectedItem="{Binding SelectedTaskType, Mode=TwoWay}"/>
 
+        <!-- Description -->
         <TextBlock Grid.Row="2" Text="Description" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Width="150" Height="40" Margin="5" HorizontalAlignment="Right" VerticalScrollBarVisibility="Auto"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Width="150" Height="40" Margin="5" HorizontalAlignment="Right" VerticalScrollBarVisibility="Auto"
+         Text="{Binding Description, Mode=TwoWay}"/>
 
-
+        <!-- Status -->
         <TextBlock Grid.Row="3" Text="Status" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
-        <ComboBox Grid.Row="3" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" ItemsSource="{Binding StatusOptions}" />
+        <ComboBox Grid.Row="3" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" 
+          ItemsSource="{Binding StatusOptions}"
+          SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"/>
 
 
-        <Button Grid.Row="4" Grid.Column="1" Content="Insert" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Margin="5" Style="{StaticResource InsertButtonStyle}"/>
+        <Button Grid.Row="4" Grid.Column="1" Content="Insert" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Margin="5" Style="{StaticResource InsertButtonStyle}"  Command="{Binding InsertCommand}"/>
     </Grid>
 </Window>

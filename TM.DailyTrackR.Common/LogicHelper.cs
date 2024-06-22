@@ -10,6 +10,7 @@
           ExampleController = new ExampleController();
           CalendarController = new CalendarController();
           LoginController = new LoginController();
+          ActivityActionController = new ActivityActionController();
 
         }
 
@@ -18,6 +19,7 @@
         public ExampleController ExampleController { get; }
         public CalendarController CalendarController { get; }
         public LoginController LoginController { get; }
+        public ActivityActionController ActivityActionController { get; }
 
 
     }
