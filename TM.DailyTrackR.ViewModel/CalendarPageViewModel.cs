@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TM.DailyTrackR.Common;
 using TM.DailyTrackR.Logic;
 
@@ -18,7 +19,12 @@ namespace TM.DailyTrackR.ViewModel
         private List<ActivityCalendar> dataTable;
         private List<ActivityCalendar> overviewDataTable;
         private UserAccount currentUser;
+
+        private ActivityCalendar selectedActivity; // Adăugăm proprietatea SelectedActivity
+
         public DelegateCommand OpenInsertInterfaceCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand ShowContextMenuCommand { get; }
 
         public DateTime SelectedDate
         {
@@ -52,6 +58,12 @@ namespace TM.DailyTrackR.ViewModel
             set => SetProperty(ref overviewDataTable, value);
         }
 
+        public ActivityCalendar SelectedActivity
+        {
+            get => selectedActivity;
+            set => SetProperty(ref selectedActivity, value);
+        }
+
         public CalendarPageViewModel(UserAccount user)
         {
             ActivitiesDateText = "Activities Date: ";
@@ -59,8 +71,10 @@ namespace TM.DailyTrackR.ViewModel
             currentUser = user;
             SelectedDate = DateTime.Now;
             UpdateActivitiesDate(SelectedDate);
-            UpdateOverviewActivitiesDate(SelectedDate,user);
+            UpdateOverviewActivitiesDate(SelectedDate, user);
             OpenInsertInterfaceCommand = new DelegateCommand(OnOpenInsertInterface);
+            DeleteCommand = new DelegateCommand(OnDeleteExecute);
+            ShowContextMenuCommand = new DelegateCommand(OnShowContextMenuExecute);
         }
 
         private void UpdateActivitiesDate(DateTime selectedDate)
@@ -80,15 +94,47 @@ namespace TM.DailyTrackR.ViewModel
             {
                 OverviewDataTable = helper.CalendarController.GetUserActivitiesByDate(user.Id, selectedDate);
             }
-            
         }
 
         private void OnOpenInsertInterface()
         {
-            DateTime currentDate = SelectedDate; 
-            int userId = currentUser.Id; 
-            var insertViewModel = new InsertActivityViewModel(currentDate, userId); 
+            DateTime currentDate = SelectedDate;
+            int userId = currentUser.Id;
+            var insertViewModel = new InsertActivityViewModel(currentDate, userId);
             ViewService.Instance.ShowWindow(insertViewModel);
         }
+
+        private void OnDeleteExecute()
+        {
+            if (SelectedActivity != null)
+            {
+                try
+                {
+                    int activityIdToDelete = SelectedActivity.Id;
+                    helper.ActivityActionController.DeleteActivityById(activityIdToDelete);
+                    DataTable.Remove(SelectedActivity); 
+
+                    MessageBox.Show("Activity deleted successfully.");
+                    UpdateActivitiesDate(SelectedDate);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error deleting activity: " + ex.Message);
+                    MessageBox.Show("An error occurred while deleting activity.");
+                }
+            }
+        }
+
+        private void OnShowContextMenuExecute()
+        {
+          
+        }
+
+        private void OnReload()
+        {
+            UpdateActivitiesDate(SelectedDate);
+        }
+
+
     }
 }

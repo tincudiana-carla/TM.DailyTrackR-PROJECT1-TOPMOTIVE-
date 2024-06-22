@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -72,5 +73,32 @@ namespace TM.DailyTrackR.Logic
 
             return username;
         }
+
+
+        public void DeleteActivityById(int activityId)
+        {
+            string procedureName = "TM.DeleteActivityById";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Id", activityId);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred while deleting activity: " + ex.Message);
+                    throw;
+                }
+            }
+        }
     }
+
+   
 }

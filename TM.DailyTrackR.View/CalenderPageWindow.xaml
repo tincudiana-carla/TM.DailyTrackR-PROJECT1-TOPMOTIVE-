@@ -53,8 +53,10 @@
                     </StackPanel>
 
                     <DataGrid AutoGenerateColumns="False" 
-                              CanUserAddRows="True"
-                              ItemsSource="{Binding DataTable}" Margin="10,40,10,70">
+                  CanUserAddRows="False"
+                  ItemsSource="{Binding DataTable}" 
+                  Margin="10,40,10,70"
+                  SelectedItem="{Binding SelectedActivity}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="No." Binding="{Binding Id}" MinWidth="50" />
                             <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypeDescription}" MinWidth="100" />
@@ -62,6 +64,14 @@
                             <DataGridTextColumn Header="Description" Binding="{Binding ActivityDescription}" MinWidth="200" />
                             <DataGridTextColumn Header="Status" Binding="{Binding Status}" MinWidth="100" />
                         </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Delete" Command="{Binding DeleteCommand}" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.InputBindings>
+                            <MouseBinding MouseAction="RightClick" Command="{Binding ShowContextMenuCommand}" />
+                        </DataGrid.InputBindings>
                     </DataGrid>
                 </Grid>
             </TabItem>
@@ -85,7 +95,12 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
+            
         </TabControl>
+        <Button Grid.Column="1" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding ReloadCommand}">
+            <Image Source="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\reload.png" Width="20" Height="20" />
+        </Button>
+
     </Grid>
 
 </Window>

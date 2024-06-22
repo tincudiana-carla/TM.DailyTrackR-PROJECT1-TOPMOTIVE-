@@ -43,7 +43,7 @@ namespace TM.DailyTrackR.ViewModel
             StatusOptions = new ObservableCollection<string>(Enum.GetNames(typeof(Status)));
             TaskTypeOptions = new ObservableCollection<string>(Enum.GetNames(typeof(TaskType)));
             ProjectTypeOptions = new ObservableCollection<string>(Enum.GetNames(typeof(ProjectType)));
-            ActivityTypeOptions = new ObservableCollection<string> { "1", "2" }; // Setăm manual opțiunile pentru activitate (1 și 2)
+            ActivityTypeOptions = new ObservableCollection<string> { "1", "2" }; //Am inteles ce e asta, dar am implementat altcumva.
 
             helper = new LogicHelper();
             InsertCommand = new DelegateCommand(OnInsertExecute);
@@ -113,7 +113,7 @@ namespace TM.DailyTrackR.ViewModel
                 int statusId = (int)Enum.Parse(typeof(Status), SelectedStatus);
                 int taskTypeId = (int)Enum.Parse(typeof(TaskType), SelectedTaskType);
                 int projectTypeId = (int)Enum.Parse(typeof(ProjectType), SelectedProjectType);
-                int activityTypeId = random.Next(1, 3); 
+                int activityTypeId = random.Next(1, 3);
 
                 helper.ActivityActionController.InsertActivity(
                     projectTypeId,
@@ -124,6 +124,7 @@ namespace TM.DailyTrackR.ViewModel
                     taskTypeId,
                     currentDate
                 );
+
                 Application.Current.MainWindow.Close();
             }
             catch (Exception ex)
