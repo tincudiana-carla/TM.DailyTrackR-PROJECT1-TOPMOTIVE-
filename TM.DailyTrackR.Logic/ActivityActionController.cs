@@ -98,6 +98,35 @@ namespace TM.DailyTrackR.Logic
                 }
             }
         }
+
+        public void UpdateActivityById(int id, int projectTypeId, string description, int statusId,int taskType)
+        {
+            string procedureName = "TM.UpdateActivityById";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@project_type_id", projectTypeId);
+                        command.Parameters.AddWithValue("@description", description);
+                        command.Parameters.AddWithValue("@status_id", statusId);
+                        command.Parameters.AddWithValue("@task_type", taskType);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred while updating activity: " + ex.Message);
+                    throw;
+                }
+            }
+        }
     }
 
    

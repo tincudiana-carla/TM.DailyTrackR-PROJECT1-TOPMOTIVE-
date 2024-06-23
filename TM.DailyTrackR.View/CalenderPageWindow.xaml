@@ -67,6 +67,7 @@
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Delete" Command="{Binding DeleteCommand}" />
+                                <MenuItem Header="Update" Command="{Binding OpenUpdateInterfaceCommand}" />
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                         <DataGrid.InputBindings>

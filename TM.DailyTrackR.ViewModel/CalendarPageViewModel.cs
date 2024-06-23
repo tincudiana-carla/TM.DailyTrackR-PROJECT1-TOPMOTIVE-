@@ -19,12 +19,13 @@ namespace TM.DailyTrackR.ViewModel
         private List<ActivityCalendar> dataTable;
         private List<ActivityCalendar> overviewDataTable;
         private UserAccount currentUser;
-
-        private ActivityCalendar selectedActivity; // Adăugăm proprietatea SelectedActivity
-
+        private ActivityCalendar selectedActivity;
         public DelegateCommand OpenInsertInterfaceCommand { get; }
+        public DelegateCommand OpenUpdateInterfaceCommand { get; }
         public DelegateCommand DeleteCommand { get; }
-        public DelegateCommand ShowContextMenuCommand { get; }
+      
+        private string activitiesDateText;
+
 
         public DateTime SelectedDate
         {
@@ -39,7 +40,6 @@ namespace TM.DailyTrackR.ViewModel
             }
         }
 
-        private string activitiesDateText;
         public string ActivitiesDateText
         {
             get => activitiesDateText;
@@ -73,8 +73,8 @@ namespace TM.DailyTrackR.ViewModel
             UpdateActivitiesDate(SelectedDate);
             UpdateOverviewActivitiesDate(SelectedDate, user);
             OpenInsertInterfaceCommand = new DelegateCommand(OnOpenInsertInterface);
+            OpenUpdateInterfaceCommand = new DelegateCommand(OnOpenUpdateInterface);
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
-            ShowContextMenuCommand = new DelegateCommand(OnShowContextMenuExecute);
         }
 
         private void UpdateActivitiesDate(DateTime selectedDate)
@@ -101,18 +101,42 @@ namespace TM.DailyTrackR.ViewModel
             DateTime currentDate = SelectedDate;
             int userId = currentUser.Id;
             var insertViewModel = new InsertActivityViewModel(currentDate, userId);
+
+            insertViewModel.ActivityInserted += () =>
+            {
+                UpdateActivitiesDate(currentDate);
+            };
             ViewService.Instance.ShowWindow(insertViewModel);
+        }
+
+        private void OnOpenUpdateInterface()
+        {
+            if (SelectedActivity != null)
+            {
+                int activityIdToUpdate = SelectedActivity.Id;
+                var updateViewModel = new UpdateActivityViewModel(activityIdToUpdate, currentUser.Id, OnUpdateCallBack);
+                ViewService.Instance.ShowWindow(updateViewModel);
+            }
         }
 
         private void OnDeleteExecute()
         {
             if (SelectedActivity != null)
             {
+                int activityIdToDelete = SelectedActivity.Id;
+                var validationViewModel = new ValidationDeleteData(activityIdToDelete, OnDeleteCallback);
+                ViewService.Instance.ShowWindow(validationViewModel);
+            }
+        }
+        private void OnDeleteCallback(bool isConfirmed)
+        {
+            if (isConfirmed)
+            {
                 try
                 {
                     int activityIdToDelete = SelectedActivity.Id;
                     helper.ActivityActionController.DeleteActivityById(activityIdToDelete);
-                    DataTable.Remove(SelectedActivity); 
+                    DataTable.Remove(SelectedActivity);
 
                     MessageBox.Show("Activity deleted successfully.");
                     UpdateActivitiesDate(SelectedDate);
@@ -124,17 +148,9 @@ namespace TM.DailyTrackR.ViewModel
                 }
             }
         }
-
-        private void OnShowContextMenuExecute()
-        {
-          
-        }
-
-        private void OnReload()
+        private void OnUpdateCallBack()
         {
             UpdateActivitiesDate(SelectedDate);
         }
-
-
     }
 }

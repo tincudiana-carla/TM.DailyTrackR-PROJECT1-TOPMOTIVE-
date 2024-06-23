@@ -36,6 +36,8 @@ namespace TM.DailyTrackR.ViewModel
         private LogicHelper helper;
         private Random random;
 
+        public event Action ActivityInserted;
+
         public InsertActivityViewModel(DateTime currentDate, int userId)
         {
             this.currentDate = currentDate;
@@ -125,7 +127,12 @@ namespace TM.DailyTrackR.ViewModel
                     currentDate
                 );
 
-                Application.Current.MainWindow.Close();
+                Window currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive); //https://stackoverflow.com/questions/31544090/how-to-refer-to-current-open-window-in-wpf
+                if (currentWindow != null)
+                {
+                    currentWindow.Close();
+                    ActivityInserted?.Invoke();
+                }
             }
             catch (Exception ex)
             {

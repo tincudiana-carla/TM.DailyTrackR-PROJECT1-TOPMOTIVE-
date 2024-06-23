@@ -31,7 +31,7 @@ namespace TM.DailyTrackR.ViewModel
         {
             try
             {
-                deleteCallback.Invoke(true); 
+                deleteCallback.Invoke(true);
                 Console.WriteLine("Activity deleted successfully.");
             }
             catch (Exception ex)
@@ -43,7 +43,11 @@ namespace TM.DailyTrackR.ViewModel
         private void OnCancelDelete()
         {
             deleteCallback.Invoke(false);
-           Application.Current.Shutdown();
+            Window currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive); //https://stackoverflow.com/questions/31544090/how-to-refer-to-current-open-window-in-wpf
+            if (currentWindow != null)
+            {
+                currentWindow.Close();
+            }
         }
     }
 }

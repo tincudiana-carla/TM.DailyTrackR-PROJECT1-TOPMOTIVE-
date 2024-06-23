@@ -17,6 +17,7 @@
             ViewService.Instance.RegisterView(typeof(CalendarPageViewModel), typeof(CalenderPage));
             ViewService.Instance.RegisterView(typeof(InsertActivityViewModel), typeof(InsertActivityWindow));
             ViewService.Instance.RegisterView(typeof(TM.DailyTrackR.ViewModel.ValidationDeleteData), typeof(TM.DailyTrackR.View.ValidationDeleteData));
+            ViewService.Instance.RegisterView(typeof(UpdateActivityViewModel), typeof(UpdateActivityDataWindow));
             ViewService.Instance.ShowDialog(new MainWindowViewModel());
         }
   }
