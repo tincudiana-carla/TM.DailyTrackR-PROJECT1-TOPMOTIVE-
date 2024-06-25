@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
         mc:Ignorable="d"
-        Title="ValidationDeleteData" Height="200" Width="300">
+        Title="ValidationDeleteData" Height="200" Width="300"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

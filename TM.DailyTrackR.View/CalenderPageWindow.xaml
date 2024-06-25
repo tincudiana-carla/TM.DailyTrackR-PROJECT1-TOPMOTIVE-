@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
         mc:Ignorable="d"
         Title="Cea mai tare aplicatie!" Height="450" Width="800"
-        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png">
+        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
     <Window.Resources>
         <Style x:Key="StyledButton" TargetType="Button">
             <Setter Property="Background" Value="DodgerBlue"/>
@@ -34,6 +35,31 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+
+        <Style TargetType="CalendarDayButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CalendarDayButton">
+                        <Border x:Name="dayButtonBorder" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="dayButtonBorder" Property="Background" Value="LightBlue"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsToday" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="dayButtonBorder" Property="Background" Value="LightGreen"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -53,10 +79,10 @@
                     </StackPanel>
 
                     <DataGrid AutoGenerateColumns="False" 
-                  CanUserAddRows="False"
-                  ItemsSource="{Binding DataTable}" 
-                  Margin="10,40,10,70"
-                  SelectedItem="{Binding SelectedActivity}">
+                              CanUserAddRows="False"
+                              ItemsSource="{Binding DataTable}" 
+                              Margin="10,40,10,70"
+                              SelectedItem="{Binding SelectedActivity}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="No." Binding="{Binding Id}" MinWidth="50" />
                             <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypeDescription}" MinWidth="100" />
@@ -80,11 +106,13 @@
             <TabItem Header="Overview">
                 <Grid Background="LightBlue">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-                        <TextBlock Text="{Binding ActivitiesDateText}" VerticalAlignment="Center" Margin="0"/>
+                        <TextBlock Text="{Binding ActivitiesDateText}" VerticalAlignment="Center"/>
                     </StackPanel>
+
                     <DataGrid AutoGenerateColumns="False" 
                               CanUserAddRows="True"
-                              ItemsSource="{Binding OverviewDataTable}" Margin="10,40,10,70">
+                              ItemsSource="{Binding OverviewDataTable}" 
+                              Margin="10,40,10,70">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="No." Binding="{Binding Id}" MinWidth="50" />
                             <DataGridTextColumn Header="Project Type" Binding="{Binding ProjectTypeDescription}" MinWidth="100" />
@@ -94,14 +122,63 @@
                             <DataGridTextColumn Header="Username" Binding="{Binding Username}" MinWidth="100" />
                         </DataGrid.Columns>
                     </DataGrid>
+
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="50,300,0,0">
+                        <TextBlock Text="Start Date:" VerticalAlignment="Center" Margin="10,0"/>
+                        <DatePicker x:Name="StartDatePicker" Margin="5,0" SelectedDate="{Binding SelectedStartDate, Mode=TwoWay}"/>
+                        <TextBlock Text="End Date:" VerticalAlignment="Center" Margin="10,0"/>
+                        <DatePicker x:Name="EndDatePicker" Margin="5,0" SelectedDate="{Binding SelectedEndDate, Mode=TwoWay}"/>
+                        <Button Command="{Binding ExportToFileCommand}">
+                            <Image Source="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\download.png" Height="24" Width="30"/>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
-            
-        </TabControl>
-        <Button Grid.Column="1" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding ReloadCommand}">
-            <Image Source="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\reload.png" Width="20" Height="20" />
-        </Button>
 
+            <TabItem Header="GraphicStatistic">
+                <Grid Background="LightBlue">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Canvas Width="800" Height="600" Margin="10">
+              
+                <Line X1="0" Y1="575" X2="800" Y2="575" Stroke="Black" StrokeThickness="2"/>
+               
+                <Line X1="50" Y1="0" X2="50" Y2="600" Stroke="Black" StrokeThickness="2"/>
+
+                
+                <TextBlock Text="25.06.2024" Canvas.Left="0" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="26.06.2024" Canvas.Left="100" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="27.06.2024" Canvas.Left="200" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="28.06.2024" Canvas.Left="300" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="29.06.2024" Canvas.Left="400" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="30.06.2024" Canvas.Left="500" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="01.07.2024" Canvas.Left="600" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="02.07.2024" Canvas.Left="700" Canvas.Top="580" HorizontalAlignment="Left"/>
+                <TextBlock Text="03.07.2024" Canvas.Left="800" Canvas.Top="580" HorizontalAlignment="Left"/>
+
+                
+                <TextBlock Text="20" Canvas.Left="30" Canvas.Top="10" HorizontalAlignment="Right"/>
+                <TextBlock Text="18" Canvas.Left="30" Canvas.Top="60" HorizontalAlignment="Right"/>
+                <TextBlock Text="16" Canvas.Left="30" Canvas.Top="110" HorizontalAlignment="Right"/>
+                <TextBlock Text="14" Canvas.Left="30" Canvas.Top="160" HorizontalAlignment="Right"/>
+                <TextBlock Text="12" Canvas.Left="30" Canvas.Top="210" HorizontalAlignment="Right"/>
+                <TextBlock Text="10" Canvas.Left="30" Canvas.Top="260" HorizontalAlignment="Right"/>
+                <TextBlock Text="8" Canvas.Left="30" Canvas.Top="310" HorizontalAlignment="Right"/>
+                <TextBlock Text="6" Canvas.Left="30" Canvas.Top="360" HorizontalAlignment="Right"/>
+                <TextBlock Text="4" Canvas.Left="30" Canvas.Top="410" HorizontalAlignment="Right"/>
+                <TextBlock Text="2" Canvas.Left="30" Canvas.Top="460" HorizontalAlignment="Right"/>
+                <TextBlock Text="0" Canvas.Left="30" Canvas.Top="510" HorizontalAlignment="Right"/>
+
+              
+                <Polyline Stroke="Blue" StrokeThickness="2"
+                          Points="0,300 100,250 200,200 300,350 400,400 500,300 600,250 700,200 800,400"/>
+            </Canvas>
+        </ScrollViewer>
+    </Grid>
+            </TabItem>
+
+
+        </TabControl>
     </Grid>
 
 </Window>

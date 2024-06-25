@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
         mc:Ignorable="d"
-       Title="Insereaza o activitate" Height="240" Width="300"
-        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png">
+        Title="Insereaza o activitate" Height="240" Width="300"
+        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
     
     <Grid Margin="10">
 

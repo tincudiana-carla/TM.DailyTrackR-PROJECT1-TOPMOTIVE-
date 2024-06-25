@@ -15,7 +15,6 @@ namespace TM.DailyTrackR.ViewModel
     public class UpdateActivityViewModel : BindableBase
     {
         private readonly int activityId;
-        private readonly int userId;
         private readonly Action onUpdateCallback;
         private ObservableCollection<string> statusOptions;
         private ObservableCollection<string> taskTypeOptions;
@@ -74,11 +73,9 @@ namespace TM.DailyTrackR.ViewModel
             get => selectedProjectType;
             set => SetProperty(ref selectedProjectType, value);
         }
-
-        public UpdateActivityViewModel(int activityId, int userId, Action onUpdateCallback)
+        public UpdateActivityViewModel(int activityId, Action onUpdateCallback)
         {
             this.activityId = activityId;
-            this.userId = userId;
             this.onUpdateCallback = onUpdateCallback;
             helper = new LogicHelper();
             UpdateCommand = new DelegateCommand(OnUpdate);
@@ -97,7 +94,6 @@ namespace TM.DailyTrackR.ViewModel
                 int projectTypeId = (int)Enum.Parse(typeof(ProjectType), SelectedProjectType);
                 helper.ActivityActionController.UpdateActivityById(activityId, projectTypeId, Description, statusId, taskTypeId);
                 onUpdateCallback.Invoke();
-
                 MessageBox.Show("Activity updated successfully.");
             }
             catch (Exception ex)

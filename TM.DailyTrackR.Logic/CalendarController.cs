@@ -149,6 +149,51 @@ namespace TM.DailyTrackR.Logic
             return dataList;
         }
 
+        public List<ActivityCalendar> GetLastActivityPerUserPerProjectTypeInRange(DateTime startDate, DateTime endDate)
+        {
+            string procedureName = "TM.GetLastActivityPerUserPerProjectTypeInRange";
+            List<ActivityCalendar> dataList = new List<ActivityCalendar>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@StartDate", startDate));
+                        command.Parameters.Add(new SqlParameter("@EndDate", endDate));
+
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            ActivityCalendar data = new ActivityCalendar
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("id")),
+                                ProjectTypeDescription = reader.GetString(reader.GetOrdinal("ProjectTypeDescription")),
+                                ActivityDescription = reader.GetString(reader.GetOrdinal("ActivityDescription")),
+                                Status = (Status)reader.GetInt32(reader.GetOrdinal("Status")),
+                                Username = reader.GetString(reader.GetOrdinal("Username")),
+                                DateTime = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
+                                UserID = reader.GetInt32(reader.GetOrdinal("UserID")),
+                                TaskType = (TaskType)reader.GetInt32(reader.GetOrdinal("TaskType"))
+                            };
+
+                            dataList.Add(data);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+            }
+
+            return dataList;
+        }
+
 
 
     }

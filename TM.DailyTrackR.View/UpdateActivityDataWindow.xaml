@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TM.DailyTrackR.View"
         mc:Ignorable="d"
         Title="Modifica activitatea" Height="240" Width="300"
-        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png">
+        Icon="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\icon.png"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
     <Grid Margin="10">
 
         <Grid.Resources>
@@ -40,6 +41,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="D:\VISUALSTUDIOPROJECTS\Project1\TM.DailyTrackR\images\background.png"/>
         </Grid.Background>
+        
         <Grid.RowDefinitions>
 
             <RowDefinition Height="Auto"/>
@@ -50,22 +52,22 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Project Type" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
         <ComboBox Grid.Row="0" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" 
-       ItemsSource="{Binding ProjectTypeOptions}"
-       SelectedItem="{Binding SelectedProjectType, Mode=TwoWay}"/>
+            ItemsSource="{Binding ProjectTypeOptions}"
+            SelectedItem="{Binding SelectedProjectType, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="1" Text="Task Type" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
         <ComboBox Grid.Row="1" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" 
-       ItemsSource="{Binding TaskTypeOptions}"
-       SelectedItem="{Binding SelectedTaskType, Mode=TwoWay}"/>
+            ItemsSource="{Binding TaskTypeOptions}"
+            SelectedItem="{Binding SelectedTaskType, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="2" Text="Description" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
         <TextBox Grid.Row="2" Grid.Column="1" Width="150" Height="40" Margin="5" HorizontalAlignment="Right" VerticalScrollBarVisibility="Auto"
-      Text="{Binding Description, Mode=TwoWay}"/>
+            Text="{Binding Description, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="3" Text="Status" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" FontFamily="Arial" Foreground="MidnightBlue"/>
         <ComboBox Grid.Row="3" Grid.Column="1" Width="150" Margin="5" HorizontalAlignment="Right" 
-       ItemsSource="{Binding StatusOptions}"
-       SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"/>
+            ItemsSource="{Binding StatusOptions}"
+            SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"/>
 
 
         <Button Grid.Row="4" Grid.Column="1" Content="Update" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Margin="5" Style="{StaticResource UpdateButtonStyle}"  Command="{Binding UpdateCommand}"/>
