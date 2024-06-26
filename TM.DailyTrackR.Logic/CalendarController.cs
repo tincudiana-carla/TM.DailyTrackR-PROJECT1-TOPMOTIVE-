@@ -193,43 +193,5 @@ namespace TM.DailyTrackR.Logic
 
             return dataList;
         }
-
-        public List<ActivityCount> GetActivityCountsByDate()
-        {
-            var activityCounts = new List<ActivityCount>();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand("[TM].[GetActivityCountsByDate]", connection))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var activityCount = new ActivityCount
-                                {
-                                    Date = reader.GetDateTime(reader.GetOrdinal("ActivityDate")),
-                                    Count = reader.GetInt32(reader.GetOrdinal("ActivityCount"))
-                                };
-                                activityCounts.Add(activityCount);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("An error occurred: " + ex.Message);
-                }
-            }
-
-            return activityCounts;
-        }
-
-
-
     }
 }
