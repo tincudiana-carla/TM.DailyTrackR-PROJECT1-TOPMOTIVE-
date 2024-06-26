@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.TextFormatting;
 using TM.DailyTrackR.Common;
 using TM.DailyTrackR.DataType.Enums;
 
@@ -73,11 +74,15 @@ namespace TM.DailyTrackR.ViewModel
             get => selectedProjectType;
             set => SetProperty(ref selectedProjectType, value);
         }
-        public UpdateActivityViewModel(int activityId, Action onUpdateCallback)
+        public UpdateActivityViewModel(int activityId,string SelectedStatus, string TaskTypeOption, string projectTypeOptions, Action onUpdateCallback)
         {
             this.activityId = activityId;
             this.onUpdateCallback = onUpdateCallback;
             helper = new LogicHelper();
+            this.selectedStatus = SelectedStatus;
+            this.SelectedTaskType = TaskTypeOption;
+            this.selectedProjectType = projectTypeOptions;
+
             UpdateCommand = new DelegateCommand(OnUpdate);
             StatusOptions = new ObservableCollection<string>(Enum.GetNames(typeof(Status)));
             TaskTypeOptions = new ObservableCollection<string>(Enum.GetNames(typeof(TaskType)));
@@ -93,7 +98,13 @@ namespace TM.DailyTrackR.ViewModel
                 int taskTypeId = (int)Enum.Parse(typeof(TaskType), SelectedTaskType);
                 int projectTypeId = (int)Enum.Parse(typeof(ProjectType), SelectedProjectType);
                 helper.ActivityActionController.UpdateActivityById(activityId, projectTypeId, Description, statusId, taskTypeId);
-                onUpdateCallback.Invoke();
+                Window currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive); 
+                if (currentWindow != null)
+                {
+                    currentWindow.Close();
+                    onUpdateCallback.Invoke();
+                }
+               
                 MessageBox.Show("Activity updated successfully.");
             }
             catch (Exception ex)

@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -18,17 +19,19 @@ namespace TM.DailyTrackR.ViewModel
     {
 
         private LogicHelper helper;
-        private List<ActivityCalendar> dataTable;
-        private List<ActivityCalendar> overviewDataTable;
         private UserAccount currentUser;
         private ActivityCalendar selectedActivity;
+
+
+        private List<ActivityCalendar> dataTable;
+        private List<ActivityCalendar> overviewDataTable;
+        
         public DelegateCommand OpenInsertInterfaceCommand { get; }
         public DelegateCommand OpenUpdateInterfaceCommand { get; }
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand ExportToFileCommand { get; }
 
         private string activitiesDateText;
-
         private string selectedStatus;
         private string selectedTaskType;
         private string selectedProjectType;
@@ -56,6 +59,19 @@ namespace TM.DailyTrackR.ViewModel
             set => SetProperty(ref selectedEndDate, value);
         }
 
+        public DateTime SelectedDate
+        {
+            get => selectedDate;
+            set
+            {
+                if (SetProperty(ref selectedDate, value))
+                {
+                    UpdateActivitiesDate(value);
+                    UpdateOverviewActivitiesDate(value, currentUser);
+                }
+            }
+        }
+
         public string SelectedTaskType
         {
             get => selectedTaskType;
@@ -71,20 +87,7 @@ namespace TM.DailyTrackR.ViewModel
         {
             get => description;
             set => SetProperty(ref description, value);
-        }
-
-        public DateTime SelectedDate
-        {
-            get => selectedDate;
-            set
-            {
-                if (SetProperty(ref selectedDate, value))
-                {
-                    UpdateActivitiesDate(value);
-                    UpdateOverviewActivitiesDate(value, currentUser);
-                }
-            }
-        }
+        }  
 
         public string ActivitiesDateText
         {
@@ -145,6 +148,11 @@ namespace TM.DailyTrackR.ViewModel
             }
         }
 
+        public void DataCanvas()
+        {
+            OverviewDataTable = helper.CalendarController.GetUserActivitiesByDate(currentUser.Id, selectedDate);
+        }
+
         private void OnOpenInsertInterface()
         {
             DateTime currentDate = SelectedDate;
@@ -165,8 +173,21 @@ namespace TM.DailyTrackR.ViewModel
             {
                 int activityIdToUpdate = SelectedActivity.Id;
 
-                var updateViewModel = new UpdateActivityViewModel(activityIdToUpdate, OnUpdateCallBack);
-                ViewService.Instance.ShowWindow(updateViewModel);
+                string selectedStatus = SelectedActivity.Status.ToString();
+                string selectedTaskType = SelectedActivity.TaskType.ToString();
+                string selectedProjectType = SelectedActivity.ProjectTypeDescription.ToString();
+
+                if (!string.IsNullOrEmpty(selectedStatus) && !string.IsNullOrEmpty(selectedTaskType) && !string.IsNullOrEmpty(selectedProjectType))
+                {
+                    var updateViewModel = new UpdateActivityViewModel(
+                        activityIdToUpdate,
+                        selectedStatus,
+                        selectedTaskType,
+                        selectedProjectType,
+                        OnUpdateCallBack
+                    );
+                    ViewService.Instance.ShowWindow(updateViewModel);
+                }
             }
         }
 
@@ -250,6 +271,7 @@ namespace TM.DailyTrackR.ViewModel
             List<ActivityCalendar> activities = helper.CalendarController.GetLastActivityPerUserPerProjectTypeInRange(startDate, endDate);
             SaveActivitiesToFile(activities, filePath);
         }
+
         private void OnExportToFileExecute()
         {
             DateTime startDate = SelectedStartDate;
@@ -257,6 +279,5 @@ namespace TM.DailyTrackR.ViewModel
             string filePath = @"D:\VISUALSTUDIOPROJECTS\Project1\Fisier.txt";
             ExportActivitiesToFile(startDate, endDate, filePath);
         }
-
     }
 }

@@ -54,25 +54,19 @@
 
                 if (userAccount.Role == "user")
                 {
-                    MessageBox.Show($"Logged in as: {Username} (User)");
-                    var calendarPageViewModel = new CalendarPageViewModel(userAccount);
-                    ViewService.Instance.ShowWindow(calendarPageViewModel);
-                    Application.Current.MainWindow.Close();
+                    MessageBox.Show($"Logged in as: {Username} (User)");  
                 }
                 else if (userAccount.Role == "admin")
-                {
-                    
+                {     
                     MessageBox.Show($"Logged in as: {Username} (Admin)");
-                    var selectedDate = DateTime.Now;
-                    var calendarPageViewModel = new CalendarPageViewModel(userAccount);
-                    ViewService.Instance.ShowWindow(calendarPageViewModel);
-                    Application.Current.MainWindow.Close();
-
                 }
                 else
                 {
                     MessageBox.Show("Invalid username or password.");
                 }
+                var calendarPageViewModel = new CalendarPageViewModel(userAccount);
+                ViewService.Instance.ShowWindow(calendarPageViewModel);
+                Application.Current.MainWindow.Close();
             }
             else
             {
